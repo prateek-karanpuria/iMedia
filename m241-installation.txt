@@ -1,0 +1,54 @@
+https://devdocs.magento.com/guides/v2.4/install-gde/install/cli/install-cli.html
+
+[Create swap file]
+https://support.magento.com/hc/en-us/articles/360032980432?_ga=2.213653906.725331441.1605499380-2065539163.1605099784
+
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
+
+PHP7.4
+sudo update-alternatives --set php /usr/bin/php7.4
+sudo service apache2 restart
+
+Mysql 8
+
+Elastic Search 7.6
+https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-elasticsearch-on-ubuntu-20-04
+
+sudo nano /etc/apache2/apache2.conf
+
+Modify this
+
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+
+to this
+
+<Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+
+sudo a2enmod ssl
+
+sudo a2ensite default-ssl
+
+sudo a2enmod rewrite
+
+sudo service apache2 restart
+
+bin/magento setup:install --backend-frontname 'admin' --enable-debug-logging 1 --enable-syslog-logging 1 --db-host 'localhost' --db-name 'm241' --db-user 'root' --db-password 'iMedia@009' --document-root-is-pub 1 --language 'en_US' --timezone 'Asia/Kolkata' --currency 'INR' --use-rewrites 1 --use-secure 0 --use-secure-admin 0 --admin-use-security-key 0 --admin-user root --admin-password 'iMedia@009' --admin-email 'prateek@intellimedianetworks.net' --admin-firstname 'Prateek' --admin-lastname 'K.'
+
+Clear cache
+
+INSERT INTO core_config_data (path, value) VALUES ('dev/static/sign', 0)
+ON DUPLICATE KEY UPDATE value = 0;
+
+Clear cache
+
+bin/magento module:disable Magento_TwoFactorAuth
+
